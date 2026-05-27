@@ -1,13 +1,13 @@
-import { Text, TextInput, View } from "react-native"
-import { globalStyles } from "../../styles/globalStyles"
+import { Text, TextInput, View } from "react-native";
+import { globalStyles } from "../../styles/globalStyles";
 
-export function CurrencyInput({ form, setForm, valueInputRef }) {
+export default function CurrencyInput({ form, setForm, valueInputRef }) {
   const handleCurrencyChange = (text) => {
-    const formattedValue = text.replace(/\D/g, "")
-    const numberValue = formattedValue ? parseFloat(formattedValue) / 100 : 0
+    const formattedValue = text.replace(/\D/g, "");
+    const numberValue = formattedValue ? parseFloat(formattedValue) / 100 : 0;
 
-    setForm({ ...form, value: numberValue })
-  }
+    setForm({ ...form, value: numberValue });
+  };
 
   return (
     <View>
@@ -16,12 +16,12 @@ export function CurrencyInput({ form, setForm, valueInputRef }) {
         ref={valueInputRef}
         value={form.value.toLocaleString("pt-BR", {
           style: "currency",
-          currency: "BRL"
+          currency: "BRL",
         })}
         onChangeText={handleCurrencyChange}
         keyboardType="numeric"
         style={globalStyles.input}
       />
     </View>
-  )
+  );
 }

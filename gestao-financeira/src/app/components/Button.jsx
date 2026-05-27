@@ -2,7 +2,7 @@ import { StyleSheet, Text } from "react-native";
 import { TouchableHighlight } from "react-native";
 import { colors } from "../../constants/colors";
 
-export function Button({ children, onPress }) {
+export default function Button({ children, onPress }) {
   return (
     <TouchableHighlight style={style.background} onPress={onPress}>
       <Text style={style.text}>{children}</Text>

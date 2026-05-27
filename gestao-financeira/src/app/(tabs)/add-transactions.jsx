@@ -5,15 +5,15 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Keyboard,
-  TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import { useRef, useState } from "react";
 import { globalStyles } from "../../styles/globalStyles";
-import { DescriptionInput } from "../components/DescriptionInput";
-import { CurrencyInput } from "../components/CurrencyInput";
-import { DatePicker } from "../components/DatePicker";
-import { CategoryPicker } from "../components/CategoryPicker";
-import { Button } from "../components/Button";
+import DescriptionInput from "../components/DescriptionInput";
+import CurrencyInput from "../components/CurrencyInput";
+import DatePicker from "../components/DatePicker";
+import CategoryPicker from "../components/CategoryPicker";
+import Button from "../components/Button";
 
 const initialForm = {
   description: "",
@@ -38,7 +38,7 @@ export default function AddTransactions() {
       style={globalStyles.screenContainer}
       behavior="padding"
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Pressable onPress={Keyboard.dismiss}>
         <ScrollView style={globalStyles.content}>
           <View style={styles.form}>
             <DescriptionInput
@@ -56,7 +56,7 @@ export default function AddTransactions() {
           </View>
           <Button onPress={addTransaction}>Adicionar</Button>
         </ScrollView>
-      </TouchableWithoutFeedback>
+      </Pressable>
     </KeyboardAvoidingView>
   );
 }

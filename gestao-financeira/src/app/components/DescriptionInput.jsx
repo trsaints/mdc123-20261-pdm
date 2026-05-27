@@ -1,7 +1,7 @@
-import { Text, TextInput, View } from "react-native"
-import { globalStyles } from "../../styles/globalStyles"
+import { Text, TextInput, View } from "react-native";
+import { globalStyles } from "../../styles/globalStyles";
 
-export function DescriptionInput({ form, setForm, valueInputRef }) {
+export default function DescriptionInput({ form, setForm, valueInputRef }) {
   return (
     <View>
       <Text style={globalStyles.inputLabel}>Descrição</Text>
@@ -13,5 +13,5 @@ export function DescriptionInput({ form, setForm, valueInputRef }) {
         style={globalStyles.input}
       />
     </View>
-  )
+  );
 }
