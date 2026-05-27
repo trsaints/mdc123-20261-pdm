@@ -16,13 +16,24 @@ export default function AddTransactions() {
     date: "",
     category: "Renda",
   };
-   // Estado inicial como um objeto
+  // Estado inicial como um objeto
   const [form, setForm] = useState(initialForm);
 
   const addTransaction = () => {
     Alert.alert(
       `${form.description} | ${form.value} | ${form.date} | ${form.category}`,
     );
+  };
+
+  const handleCurrencyChange = (text) => {
+    // 1. Regex Mágico: Remove tudo o que NÃO for número (letras, R$, vírgulas)
+    const formattedValue = text.replace(/\D/g, "");
+
+    // 2. Transforma em número decimal (divide por 100 para criar os centavos)
+    const numberValue = formattedValue ? parseFloat(formattedValue) / 100 : 0;
+
+    // 3. Salva no estado
+    setForm({ ...form, value: numberValue });
   };
 
   return (
