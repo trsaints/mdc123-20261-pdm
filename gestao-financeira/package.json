@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
+    "@react-native-community/datetimepicker": "9.1.0",
     "expo": "~56.0.5",
     "expo-router": "~56.2.7",
     "expo-status-bar": "~56.0.4",
