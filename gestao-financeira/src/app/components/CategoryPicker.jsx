@@ -4,7 +4,7 @@ import { globalStyles } from "../../styles/globalStyles"
 import { categories } from "../../constants/categories"
 import { colors } from "../../constants/colors"
 
-export default function CategoryPicker({ form, setForm }) {
+export function CategoryPicker({ form, setForm }) {
   return (
     <View>
       <Text style={globalStyles.inputLabel}>Categoria</Text>

@@ -3,7 +3,7 @@ import { useState } from "react"
 import RNDateTimePicker from "@react-native-community/datetimepicker"
 import { globalStyles } from "../../styles/globalStyles"
 
-export default function DatePicker({ form, setForm }) {
+export function DatePicker({ form, setForm }) {
   const [showPicker, setShowPicker] = useState(false)
 
   const handleDateChange = (_, selectDate) => {
