@@ -1,11 +1,17 @@
 {
-	"expo": {
-		"icon": "./src/assets/images/icon.png",
-		"splash": {
-			"image": "./src/assets/images/splash.png"
-		},
-		"plugins": [
-			"@react-native-community/datetimepicker"
-		]
-	}
+  "expo": {
+    "icon": "./src/assets/icon.png",
+    "plugins": [
+      "@react-native-community/datetimepicker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "01820c14-b700-44be-ab80-8ebe63895a10"
+      }
+    },
+    "owner": "trsaints",
+    "android": {
+      "package": "com.trsaints.gestaofinanceira"
+    }
+  }
 }
