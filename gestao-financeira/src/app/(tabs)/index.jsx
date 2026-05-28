@@ -5,7 +5,7 @@ import { globalStyles } from "../../styles/globalStyles";
 import { MoneyContext } from '../../../contexts/GlobalState'
 
 export default function Transactions() {
-	const [transactions] = useContext(MoneyContext);
+	const { transactions } = useContext(MoneyContext);
 
 	return (
 		<View style={globalStyles.screenContainer}>

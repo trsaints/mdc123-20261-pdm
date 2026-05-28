@@ -1,6 +1,6 @@
 // contexts/GlobalState.jsx (essência)
 import { createContext, useCallback, useEffect, useState } from "react";
-import { api } from "../services/api";
+import { api } from "../src/services/api";
 
 export const MoneyContext = createContext();
 
@@ -35,7 +35,7 @@ export default function GlobalState({ children }) {
 
 	return (
 		<MoneyContext.Provider value={{
-			transactions, categories, loading, error, refresh,
+			transactions, setTransactions, categories, loading, error, refresh,
 			addTransaction, removeTransaction, addCategory, removeCategory,
 		}}>
 			{children}

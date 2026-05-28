@@ -29,7 +29,7 @@ export default function AddTransactions() {
 	const valueInputRef = useRef();
 
 	// Consumindo o estado global!
-	const [transactions, setTransactions] = useContext(MoneyContext);
+	const { transactions, setTransactions } = useContext(MoneyContext);
 
 	const setAsyncStorage = async (data) => {
 		try {
