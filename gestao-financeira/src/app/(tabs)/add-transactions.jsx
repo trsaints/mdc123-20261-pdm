@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useRef, useState } from "react";
 import {
 	Alert,
@@ -10,6 +9,7 @@ import {
 	View,
 } from "react-native";
 import { MoneyContext } from "../../../contexts/GlobalState";
+import { api } from "../../services/api";
 import { globalStyles } from "../../styles/globalStyles";
 import Button from "../components/Button";
 import CategoryPicker from "../components/CategoryPicker";
@@ -26,30 +26,48 @@ const initialForm = {
 
 export default function AddTransactions() {
 	const [form, setForm] = useState(initialForm);
+	const [submitting, setSubmitting] = useState(false);
 	const valueInputRef = useRef();
 
 	// Consumindo o estado global!
-	const { transactions, setTransactions } = useContext(MoneyContext);
-
-	const setAsyncStorage = async (data) => {
-		try {
-			// O AsyncStorage exige que salvemos objetos/arrays como String
-			await AsyncStorage.setItem("transactions", JSON.stringify(data));
-		} catch (e) {
-			console.log(e);
-		}
-	};
+	const { transactions, setTransactions, categories } = useContext(MoneyContext);
 
 	const addTransaction = async () => {
-		// Cria a transação gerando um ID baseado no tamanho da lista
-		const newTransaction = { id: transactions.length + 1, ...form };
-		const updatedTransactions = [...transactions, newTransaction];
+		if (!form.description.trim()) {
+			Alert.alert("Erro", "Informe uma descrição");
+			return;
+		}
+		if (form.value <= 0) {
+			Alert.alert("Erro", "Informe um valor maior que zero");
+			return;
+		}
 
-		setTransactions(updatedTransactions); // Atualiza a memória RAM (Contexto)
-		setForm(initialForm); // Limpa o formulário
-		await setAsyncStorage(updatedTransactions); // Atualiza a memória do Celular (Storage)
+		// Find the category ID by name
+		const categoryObj = categories.find((c) => c.name === form.category);
+		if (!categoryObj) {
+			Alert.alert("Erro", "Categoria inválida");
+			return;
+		}
 
-		Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
+		setSubmitting(true);
+		try {
+			// Call API to create transaction
+			const newTransaction = await api.createTransaction({
+				description: form.description.trim(),
+				value: form.value,
+				date: form.date.toISOString(),
+				categoryId: categoryObj.id,
+			});
+
+			// Update local state with the created transaction
+			setTransactions([...transactions, newTransaction]);
+			setForm(initialForm); // Limpa o formulário
+			Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
+		} catch (e) {
+			Alert.alert("Erro ao salvar", e.message ?? "Tente novamente.");
+		} finally {
+			setSubmitting(false);
+		}
 	};
 
 	return (
@@ -70,7 +88,9 @@ export default function AddTransactions() {
 						<DatePicker form={form} setForm={setForm} />
 						<CategoryPicker form={form} setForm={setForm} />
 					</View>
-					<Button onPress={addTransaction}>Adicionar</Button>
+					<Button onPress={addTransaction} disabled={submitting}>
+						{submitting ? "Salvando..." : "Adicionar"}
+					</Button>
 				</ScrollView>
 			</Pressable>
 		</KeyboardAvoidingView>
