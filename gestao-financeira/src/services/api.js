@@ -12,7 +12,7 @@
  *
  * Você pode sobrescrever via variável de ambiente do Expo (EXPO_PUBLIC_API_URL).
  */
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3000";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
 
 async function request(path, options = {}) {
 	const response = await fetch(`${BASE_URL}${path}`, {
@@ -38,4 +38,5 @@ export const api = {
 	createTransaction: (data) => request("/transactions", { method: "POST", body: JSON.stringify(data) }),
 	updateTransaction: (id, d) => request(`/transactions/${id}`, { method: "PUT", body: JSON.stringify(d) }),
 	deleteTransaction: (id) => request(`/transactions/${id}`, { method: "DELETE" }),
+	getSummary: () => request("/summary"),
 };
