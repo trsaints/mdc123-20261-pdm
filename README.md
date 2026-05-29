@@ -76,6 +76,30 @@ npm run dev
 
 A API padrão será exposta em `http://localhost:3000`.
 
+## Usando `openapi.json`
+
+O arquivo `openapi.json` está disponível na raiz do repositório. Ele descreve os endpoints do backend e pode ser importado em clientes HTTP compatíveis, como Postman ou Insomnia.
+
+### Postman
+
+1. Abra o Postman.
+2. Clique em `Import`.
+3. Selecione a aba `File`.
+4. Escolha `openapi.json` no diretório do projeto.
+5. Importe as rotas e teste os endpoints.
+
+### Insomnia
+
+1. Abra o Insomnia.
+2. Clique em `Create` > `Request Collection` ou `Import/Export` > `Import Data`.
+3. Selecione `From File`.
+4. Importe o arquivo `openapi.json`.
+5. O Insomnia criará as rotas e permitirá testar a API.
+
+### URL do servidor
+
+O spec utiliza `http://localhost:3000` como servidor padrão. Caso a API esteja em outro host, ajuste o servidor nas configurações do cliente HTTP após a importação.
+
 ## Frontend (App Expo)
 
 1. Instale dependências:
