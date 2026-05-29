@@ -1,3 +1,5 @@
+import { colors } from "../../constants/colors";
+
 export default function AppButton({ children, onPress, disabled }) {
 	return (
 		<button
@@ -7,15 +9,16 @@ export default function AppButton({ children, onPress, disabled }) {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				height: 44,
-				borderRadius: 8,
-				backgroundColor: "#0078D4",
-				color: "#FFFFFF",
-				fontSize: 18,
-				fontWeight: 600,
+				height: 48,
+				borderRadius: 12,
+				backgroundColor: disabled ? colors.inactive : colors.primary,
+				color: colors.primaryContrast,
+				fontSize: 16,
+				fontWeight: 700,
 				border: "none",
 				cursor: disabled ? "not-allowed" : "pointer",
-				opacity: disabled ? 0.6 : 1,
+				opacity: disabled ? 0.7 : 1,
+				transition: "background-color 0.2s ease, opacity 0.2s ease",
 			}}
 		>
 			{children}

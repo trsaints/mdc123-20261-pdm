@@ -86,52 +86,52 @@ export default function Summary() {
 							</View>
 						</View>
 
-						<Text style={styles.sectionTitle}>Por categoria</Text>
+						<Text style={globalStyles.sectionTitle}>Por categoria</Text>
 						{summary.categories.length === 0 ? (
 							<Text style={globalStyles.secondaryText}>
 								Ainda não há transações para gerar o resumo.
 							</Text>
 						) : (
 							summary.categories.map((item) => {
-							const width = `${Math.max((item.total / highestCategory) * 100, 12)}%`;
-							return (
-								<View key={item.id} style={styles.categoryRow}>
-									<View style={styles.categoryInfo}>
-										<Text style={styles.categoryName}>{item.displayName}</Text>
-										<Text style={globalStyles.secondaryText}>
-											{formatCurrency(item.total)} • {item.isIncome ? "Receita" : "Despesa"}
-										</Text>
-										<View style={styles.categoryBarBackground}>
-											<View style={[styles.categoryBar, { width, backgroundColor: item.background }]} />
+								const width = `${Math.max((item.total / highestCategory) * 100, 12)}%`;
+								return (
+									<View key={item.id} style={styles.categoryRow}>
+										<View style={styles.categoryInfo}>
+											<Text style={styles.categoryName}>{item.displayName}</Text>
+											<Text style={globalStyles.secondaryText}>
+												{formatCurrency(item.total)} • {item.isIncome ? "Receita" : "Despesa"}
+											</Text>
+											<View style={styles.categoryBarBackground}>
+												<View style={[styles.categoryBar, { width, backgroundColor: item.background }]} />
+											</View>
 										</View>
 									</View>
-								</View>
-							);
-						})
+								);
+							})
 						)}
 
-						<Text style={styles.sectionTitle}>Histórico mensal</Text>
+						<Text style={globalStyles.sectionTitle}>Histórico mensal</Text>
 						{summary.monthly.length === 0 ? (
 							<Text style={globalStyles.secondaryText}>
 								Ainda não há informações mensais para exibir.
 							</Text>
 						) : (
 							summary.monthly.map((item) => {
-							const incomeWidth = `${Math.max((item.totalIncome / highestMonth) * 100, 12)}%`;
-							const expenseWidth = `${Math.max((item.totalExpenses / highestMonth) * 100, 12)}%`;
-							return (
-								<View key={item.month} style={styles.monthRow}>
-									<Text style={styles.monthLabel}>{item.month}</Text>
-									<Text style={globalStyles.secondaryText}>
-										{formatCurrency(item.balance)}
-									</Text>
-									<View style={styles.monthBars}>
-										<View style={[styles.monthBar, styles.monthIncome, { width: incomeWidth }]} />
-										<View style={[styles.monthBar, styles.monthExpense, { width: expenseWidth }]} />
+								const incomeWidth = `${Math.max((item.totalIncome / highestMonth) * 100, 12)}%`;
+								const expenseWidth = `${Math.max((item.totalExpenses / highestMonth) * 100, 12)}%`;
+								return (
+									<View key={item.month} style={styles.monthRow}>
+										<Text style={styles.monthLabel}>{item.month}</Text>
+										<Text style={globalStyles.secondaryText}>
+											{formatCurrency(item.balance)}
+										</Text>
+										<View style={styles.monthBars}>
+											<View style={[styles.monthBar, styles.monthIncome, { width: incomeWidth }]} />
+											<View style={[styles.monthBar, styles.monthExpense, { width: expenseWidth }]} />
+										</View>
 									</View>
-								</View>
-							);
-						})
+								);
+							})
 						)}
 					</>
 				)}

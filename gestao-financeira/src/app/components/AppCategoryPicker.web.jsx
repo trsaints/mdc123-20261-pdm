@@ -1,4 +1,5 @@
 import { categories } from "../../constants/categories";
+import { colors } from "../../constants/colors";
 
 const options = Object.values(categories).map((category) => ({
 	key: category.name,
@@ -7,24 +8,25 @@ const options = Object.values(categories).map((category) => ({
 
 export default function AppCategoryPicker({ form, setForm }) {
 	return (
-		<div style={{ marginBottom: 12 }}>
-			<label style={{ fontSize: 16, color: "#1F1F1F", marginBottom: 4, display: "block" }}>
+		<div style={{ marginBottom: 16 }}>
+			<label style={{ fontSize: 15, color: colors.primaryText, marginBottom: 8, display: "block" }}>
 				Categoria
 			</label>
 			<select
 				value={form.category}
 				onChange={(e) => setForm({ ...form, category: e.target.value })}
 				style={{
-					height: 40,
+					height: 48,
 					paddingLeft: 16,
-					borderColor: "#BFBFBF",
+					borderColor: colors.secondaryText,
 					borderWidth: 1,
-					borderRadius: 8,
+					borderRadius: 12,
 					borderStyle: "solid",
 					width: "100%",
 					boxSizing: "border-box",
 					fontSize: 16,
 					backgroundColor: "#FFFFFF",
+					color: colors.primaryText,
 					cursor: "pointer",
 				}}
 			>

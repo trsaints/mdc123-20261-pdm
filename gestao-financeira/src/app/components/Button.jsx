@@ -1,27 +1,15 @@
-import { StyleSheet, Text } from "react-native";
-import { TouchableHighlight } from "react-native";
-import { colors } from "../../constants/colors";
+import { Text, TouchableOpacity } from "react-native";
+import { globalStyles } from "../../styles/globalStyles";
 
-export default function AppButton({ children, onPress }) {
+export default function AppButton({ children, onPress, disabled }) {
 	return (
-		<TouchableHighlight style={style.background} onPress={onPress}>
-			<Text style={style.text}>{children}</Text>
-		</TouchableHighlight>
+		<TouchableOpacity
+			style={[globalStyles.button, disabled && globalStyles.buttonDisabled]}
+			onPress={onPress}
+			activeOpacity={0.8}
+			disabled={disabled}
+		>
+			<Text style={globalStyles.buttonText}>{children}</Text>
+		</TouchableOpacity>
 	);
 }
-
-const style = StyleSheet.create({
-	background: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		height: 44,
-		borderRadius: 8,
-		backgroundColor: colors.primary,
-	},
-	text: {
-		color: colors.primaryContrast,
-		fontSize: 18,
-		fontWeight: 600,
-	},
-});

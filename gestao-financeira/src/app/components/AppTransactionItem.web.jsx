@@ -3,17 +3,23 @@ import AppCategoryItem from "./AppCategoryItem";
 import { colors } from "../../constants/colors";
 
 export default function AppTransactionItem({ category, date, description, value }) {
-	const categoryConfig = categories[category] ?? categories.food;
 	const valueStyle = category === categories.income.name ? colors.positiveText : colors.negativesText;
 	const dateValue = new Date(date).toLocaleDateString("pt-BR");
 
 	return (
-		<div style={{ marginBottom: 16 }}>
+		<div
+			style={{
+				marginBottom: 16,
+				padding: 16,
+				borderRadius: 16,
+				backgroundColor: "#FFFFFF",
+				boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+			}}
+		>
 			<div
 				style={{
 					display: "flex",
 					alignItems: "center",
-					paddingBottom: 4,
 					gap: 12,
 				}}
 			>
@@ -29,22 +35,13 @@ export default function AppTransactionItem({ category, date, description, value 
 							alignItems: "center",
 						}}
 					>
-						<div style={{ fontSize: 15, color: colors.primaryText }}>{description}</div>
+						<div style={{ fontSize: 15, color: colors.primaryText, fontWeight: 600 }}>{description}</div>
 						<div style={{ color: valueStyle, fontWeight: 700 }}>
 							{value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div
-				style={{
-					backgroundColor: colors.secondaryText,
-					height: 1,
-					opacity: 0.5,
-					marginBottom: 4,
-					marginTop: 8,
-				}}
-			/>
 		</div>
 	);
 }

@@ -40,21 +40,25 @@ export default function AppTransactionItem({
 
 const styles = StyleSheet.create({
 	itemContainer: {
-		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
-		paddingBottom: 4,
+		backgroundColor: "#FFFFFF",
+		borderRadius: 16,
+		padding: 16,
+		marginBottom: 12,
+		shadowColor: "#000",
+		shadowOpacity: 0.06,
+		shadowRadius: 10,
+		elevation: 2,
 	},
 	textContainer: {
-		display: "flex",
 		flex: 1,
-		flexDirection: "column",
 		marginLeft: 12,
-		paddingVertical: 8,
+		justifyContent: "center",
 	},
 	bottomLineContainer: {
-		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-between",
+		marginTop: 6,
 	},
 });

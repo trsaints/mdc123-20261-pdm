@@ -123,7 +123,7 @@ export default function CategoriesScreen() {
 				contentContainerStyle={styles.listContent}
 				ListHeaderComponent={
 					<View style={styles.formContainer}>
-						<Text style={styles.sectionTitle}>Nova categoria</Text>
+						<Text style={globalStyles.sectionTitle}>Nova categoria</Text>
 
 						<View>
 							<Text style={globalStyles.inputLabel}>Identificador</Text>
@@ -179,7 +179,7 @@ export default function CategoriesScreen() {
 						</Button>
 
 						<View style={[globalStyles.line, { marginTop: 16 }]} />
-						<Text style={styles.sectionTitle}>Categorias cadastradas</Text>
+						<Text style={globalStyles.sectionTitle}>Categorias cadastradas</Text>
 					</View>
 				}
 				renderItem={({ item }) => (
