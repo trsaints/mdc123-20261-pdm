@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { categories } from "../../constants/categories";
 import { globalStyles } from "../../styles/globalStyles";
-import CategoryItem from "./CategoryItem";
+import CategoryItem from "./AppCategoryItem";
 
 export default function AppTransactionItem({
 	category,

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FlatList, Text, View } from "react-native";
-import TransactionItem from "../components/TransactionItem";
+import TransactionItem from "../components/AppTransactionItem";
 import { globalStyles } from "../../styles/globalStyles";
 import { MoneyContext } from '../../../contexts/GlobalState'
 

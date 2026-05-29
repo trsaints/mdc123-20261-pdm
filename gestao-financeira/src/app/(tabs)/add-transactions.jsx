@@ -11,11 +11,11 @@ import {
 import { MoneyContext } from "../../../contexts/GlobalState";
 import { api } from "../../services/api";
 import { globalStyles } from "../../styles/globalStyles";
-import Button from "../components/Button";
-import CategoryPicker from "../components/CategoryPicker";
-import CurrencyInput from "../components/CurrencyInput";
-import DatePicker from "../components/DatePicker";
-import DescriptionInput from "../components/DescriptionInput";
+import Button from "../components/AppButton";
+import CategoryPicker from "../components/AppCategoryPicker";
+import CurrencyInput from "../components/AppCurrencyInput";
+import DatePicker from "../components/AppDatePicker";
+import DescriptionInput from "../components/AppDescriptionInput";
 
 const initialForm = {
 	description: "",

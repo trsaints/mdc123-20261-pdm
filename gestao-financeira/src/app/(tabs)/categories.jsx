@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MoneyContext } from "../../../contexts/GlobalState";
-import Button from "../components/Button";
-import CategoryItem from "../components/CategoryItem";
+import Button from "../components/AppButton";
+import CategoryItem from "../components/AppCategoryItem";
 import { globalStyles } from "../../styles/globalStyles";
 import { colors } from "../../constants/colors";
 
