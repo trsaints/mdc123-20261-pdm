@@ -1,18 +1,37 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { categories } from "../../constants/categories";
 import { globalStyles } from "../../styles/globalStyles";
 import CategoryItem from "./CategoryItem";
+import { formatCurrency } from "../../constants/currency";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useContext } from "react";
+import { MoneyContext } from "../../../contexts/GlobalState";
 
-export default function AppTransactionItem({
-	category,
-	date,
-	description,
-	value,
-}) {
+export default function AppTransactionItem({ category, date, description, value, id }) {
+	const { removeTransaction } = useContext(MoneyContext);
+
+	const categoryName = typeof category === "object" ? category?.name : category;
 	const valueStyle =
-		category === categories.income.name
+		categoryName === categories.income.name
 			? globalStyles.positiveText
 			: globalStyles.negativeText;
+
+	const handleDelete = () => {
+		Alert.alert("Excluir transação", `Deseja excluir "${description}"?`, [
+			{ text: "Cancelar", style: "cancel" },
+			{
+				text: "Excluir",
+				style: "destructive",
+				onPress: async () => {
+					try {
+						await removeTransaction(id);
+					} catch (e) {
+						Alert.alert("Erro ao excluir", e.message ?? "Tente novamente.");
+					}
+				},
+			},
+		]);
+	};
 
 	return (
 		<>
@@ -24,12 +43,12 @@ export default function AppTransactionItem({
 					</Text>
 					<View style={styles.bottomLineContainer}>
 						<Text style={globalStyles.primaryText}>{description}</Text>
-						<Text style={valueStyle}>
-							{value.toLocaleString("pt-BR", {
-								style: "currency",
-								currency: "BRL",
-							})}
-						</Text>
+						<View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+							<Text style={valueStyle}>{formatCurrency(value)}</Text>
+							<TouchableOpacity onPress={handleDelete} hitSlop={8}>
+								<MaterialIcons name="delete-outline" size={20} color="#B00020" />
+							</TouchableOpacity>
+						</View>
 					</View>
 				</View>
 			</View>
