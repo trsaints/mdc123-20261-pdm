@@ -13,7 +13,8 @@ import { colors } from "../../constants/colors";
  * @returns {JSX.Element} View com ícone Material centrado.
  */
 export default function AppCategoryItem({ category }) {
-  const categoryConfig = categories[category] ?? categories.food;
+  const key = typeof category === "object" ? category?.name : category;
+  const categoryConfig = categories[key] ?? categories.food;
 
   return (
     <View
