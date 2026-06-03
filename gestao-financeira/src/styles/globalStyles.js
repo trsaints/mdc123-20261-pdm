@@ -1,10 +1,15 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
+
+const fontFamily = Platform.OS === "web"
+	? "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+	: "Inter";
 
 export const globalStyles = StyleSheet.create({
 	screenContainer: {
 		flex: 1,
 		backgroundColor: colors.background,
+		fontFamily,
 	},
 	content: {
 		gap: 16,
@@ -39,6 +44,7 @@ export const globalStyles = StyleSheet.create({
 		color: colors.primaryContrast,
 		fontSize: 16,
 		fontWeight: "700",
+		fontFamily,
 	},
 	input: {
 		height: 48,
@@ -53,6 +59,7 @@ export const globalStyles = StyleSheet.create({
 		fontSize: 15,
 		color: colors.primaryText,
 		marginBottom: 8,
+		fontFamily,
 	},
 	sectionTitle: {
 		fontSize: 18,
@@ -69,17 +76,21 @@ export const globalStyles = StyleSheet.create({
 	primaryText: {
 		fontSize: 16,
 		color: colors.primaryText,
+		fontFamily,
 	},
 	secondaryText: {
 		fontSize: 14,
 		color: colors.secondaryText,
+		fontFamily,
 	},
 	positiveText: {
 		fontSize: 16,
 		color: colors.positiveText,
+		fontFamily,
 	},
 	negativeText: {
 		fontSize: 16,
 		color: colors.negativesText,
+		fontFamily,
 	},
 });
