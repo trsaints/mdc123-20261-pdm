@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native";
 import { MoneyContext } from "../../../contexts/GlobalState";
-import { useSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { globalStyles } from "../../styles/globalStyles";
 import Button from "../components/AppButton";
 import CategoryPicker from "../components/AppCategoryPicker";
@@ -28,7 +28,7 @@ export default function AddTransactions() {
 	const [form, setForm] = useState(initialForm);
 	const [submitting, setSubmitting] = useState(false);
 	const valueInputRef = useRef();
-	const { id } = useSearchParams();
+	const { id } = useLocalSearchParams();
 	const router = useRouter();
 
 	// Consumindo o estado global!
