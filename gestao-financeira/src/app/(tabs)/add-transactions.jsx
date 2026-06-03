@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import {
 	Alert,
 	Keyboard,
@@ -9,6 +9,7 @@ import {
 	View,
 } from "react-native";
 import { MoneyContext } from "../../../contexts/GlobalState";
+import { useSearchParams, useRouter } from "expo-router";
 import { globalStyles } from "../../styles/globalStyles";
 import Button from "../components/AppButton";
 import CategoryPicker from "../components/AppCategoryPicker";
@@ -27,9 +28,23 @@ export default function AddTransactions() {
 	const [form, setForm] = useState(initialForm);
 	const [submitting, setSubmitting] = useState(false);
 	const valueInputRef = useRef();
+	const { id } = useSearchParams();
+	const router = useRouter();
 
 	// Consumindo o estado global!
-	const { categories, addTransaction } = useContext(MoneyContext);
+	const { categories, addTransaction, updateTransaction, transactions } = useContext(MoneyContext);
+
+	useEffect(() => {
+		if (!id) return;
+		const tx = transactions.find((t) => t.id === id);
+		if (!tx) return;
+		setForm({
+			description: tx.description,
+			value: Number(tx.value),
+			date: new Date(tx.date),
+			category: tx.category?.name ?? tx.categoryId,
+		});
+	}, [id, transactions]);
 
 	const addTransactionHandler = async () => {
 		if (!form.description.trim()) {
@@ -50,16 +65,25 @@ export default function AddTransactions() {
 
 		setSubmitting(true);
 		try {
-			// Call context function to create transaction
-			await addTransaction({
-				description: form.description.trim(),
-				value: form.value,
-				date: form.date.toISOString(),
-				categoryId: categoryObj.id,
-			});
-
-			setForm(initialForm); // Limpa o formulário
-			Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
+			if (id) {
+				await updateTransaction(id, {
+					description: form.description.trim(),
+					value: form.value,
+					date: form.date.toISOString(),
+					categoryId: categoryObj.id,
+				});
+				Alert.alert("Sucesso!", "Transação atualizada com sucesso!");
+				router.replace("/(tabs)");
+			} else {
+				await addTransaction({
+					description: form.description.trim(),
+					value: form.value,
+					date: form.date.toISOString(),
+					categoryId: categoryObj.id,
+				});
+				setForm(initialForm); // Limpa o formulário
+				Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
+			}
 		} catch (e) {
 			Alert.alert("Erro ao salvar", e.message ?? "Tente novamente.");
 		} finally {
@@ -86,7 +110,7 @@ export default function AddTransactions() {
 						<CategoryPicker form={form} setForm={setForm} />
 					</View>
 					<Button onPress={addTransactionHandler} disabled={submitting}>
-						{submitting ? "Salvando..." : "Adicionar"}
+						{submitting ? "Salvando..." : id ? "Atualizar" : "Adicionar"}
 					</Button>
 				</ScrollView>
 			</Pressable>
