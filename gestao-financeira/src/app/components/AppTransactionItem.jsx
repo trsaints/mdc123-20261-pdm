@@ -6,9 +6,11 @@ import { formatCurrency } from "../../constants/currency";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useContext } from "react";
 import { MoneyContext } from "../../../contexts/GlobalState";
+import { useRouter } from "expo-router";
 
 export default function AppTransactionItem({ category, date, description, value, id }) {
 	const { removeTransaction } = useContext(MoneyContext);
+	const router = useRouter();
 
 	const categoryName = typeof category === "object" ? category?.name : category;
 	const valueStyle =
@@ -33,6 +35,10 @@ export default function AppTransactionItem({ category, date, description, value,
 		]);
 	};
 
+	const handleEdit = () => {
+		router.push({ pathname: "/add-transactions", params: { id } });
+	};
+
 	return (
 		<>
 			<View style={styles.itemContainer}>
@@ -44,6 +50,9 @@ export default function AppTransactionItem({ category, date, description, value,
 					<View style={styles.bottomLineContainer}>
 						<Text style={globalStyles.primaryText}>{description}</Text>
 						<View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+							<TouchableOpacity onPress={handleEdit} hitSlop={8}>
+								<MaterialIcons name="edit" size={20} color="#1A73E8" />
+							</TouchableOpacity>
 							<Text style={valueStyle}>{formatCurrency(value)}</Text>
 							<TouchableOpacity onPress={handleDelete} hitSlop={8}>
 								<MaterialIcons name="delete-outline" size={20} color="#B00020" />

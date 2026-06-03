@@ -10,7 +10,8 @@ const iconEmojis = {
 };
 
 export default function AppCategoryItem({ category }) {
-	const categoryConfig = categories[category] ?? categories.food;
+	const key = typeof category === "object" ? category?.name : category;
+	const categoryConfig = categories[key] ?? categories.food;
 	const emoji = iconEmojis[categoryConfig.name] || "📦";
 
 	return (
