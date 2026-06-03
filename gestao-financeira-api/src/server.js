@@ -9,7 +9,12 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => res.json({ ok: true, name: "gestao-financeira-api" }));
