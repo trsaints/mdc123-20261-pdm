@@ -28,10 +28,27 @@ export default function GlobalState({ children }) {
 
 	useEffect(() => { refresh(); }, [refresh]);
 
-	const addTransaction = useCallback(async (data) => { /* POST + setTransactions */ }, []);
-	const removeTransaction = useCallback(async (id) => { /* DELETE + filter */ }, []);
-	const addCategory = useCallback(async (data) => { /* POST + setCategories */ }, []);
-	const removeCategory = useCallback(async (id) => { /* DELETE + filter */ }, []);
+	const addTransaction = useCallback(async (data) => {
+		const newTransaction = await api.createTransaction(data);
+		setTransactions([...transactions, newTransaction]);
+		return newTransaction;
+	}, [transactions]);
+
+	const removeTransaction = useCallback(async (id) => {
+		await api.deleteTransaction(id);
+		setTransactions(transactions.filter((t) => t.id !== id));
+	}, [transactions]);
+
+	const addCategory = useCallback(async (data) => {
+		const newCategory = await api.createCategory(data);
+		setCategories([...categories, newCategory]);
+		return newCategory;
+	}, [categories]);
+
+	const removeCategory = useCallback(async (id) => {
+		await api.deleteCategory(id);
+		setCategories(categories.filter((c) => c.id !== id));
+	}, [categories]);
 
 	return (
 		<MoneyContext.Provider value={{
