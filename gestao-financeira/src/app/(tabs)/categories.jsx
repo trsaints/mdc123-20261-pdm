@@ -37,7 +37,7 @@ const PRESET_COLORS = [
  * @returns {JSX.Element}
  */
 export default function CategoriesScreen() {
-	const { categories, loading, addCategory, removeCategory } =
+	const { categories, loading, addCategory, removeCategory, updateCategory } =
 		useContext(MoneyContext);
 
 	const [name, setName] = useState("");
@@ -46,11 +46,14 @@ export default function CategoriesScreen() {
 	const [background, setBackground] = useState(PRESET_COLORS[0]);
 	const [submitting, setSubmitting] = useState(false);
 
+	const [editingId, setEditingId] = useState(null);
+
 	const resetForm = () => {
 		setName("");
 		setDisplayName("");
 		setIcon("label");
 		setBackground(PRESET_COLORS[0]);
+		setEditingId(null);
 	};
 
 	const handleCreate = async () => {
@@ -69,15 +72,26 @@ export default function CategoriesScreen() {
 
 		setSubmitting(true);
 		try {
-			await addCategory({
-				name: name.trim().toLowerCase().replace(/\s+/g, "_"),
-				displayName: displayName.trim(),
-				icon: icon.trim(),
-				background,
-				isIncome: false,
-			});
+			if (editingId) {
+				await updateCategory(editingId, {
+					name: name.trim().toLowerCase().replace(/\s+/g, "_"),
+					displayName: displayName.trim(),
+					icon: icon.trim(),
+					background,
+					isIncome: false,
+				});
+				Alert.alert("Categoria atualizada!");
+			} else {
+				await addCategory({
+					name: name.trim().toLowerCase().replace(/\s+/g, "_"),
+					displayName: displayName.trim(),
+					icon: icon.trim(),
+					background,
+					isIncome: false,
+				});
+				Alert.alert("Categoria criada!");
+			}
 			resetForm();
-			Alert.alert("Categoria criada!");
 		} catch (e) {
 			Alert.alert("Erro ao salvar", e.message ?? "Tente novamente.");
 		} finally {
@@ -185,13 +199,22 @@ export default function CategoriesScreen() {
 				renderItem={({ item }) => (
 					<View style={styles.categoryRow}>
 						<CategoryItem category={item} />
-						<View style={styles.categoryInfo}>
+						<TouchableOpacity
+							style={styles.categoryInfo}
+							onPress={() => {
+								setEditingId(item.id);
+								setName(item.name);
+								setDisplayName(item.displayName);
+								setIcon(item.icon || "label");
+								setBackground(item.background || PRESET_COLORS[0]);
+							}}
+						>
 							<Text style={globalStyles.primaryText}>{item.displayName}</Text>
 							<Text style={globalStyles.secondaryText}>
 								{item.isDefault ? "padrão" : "personalizada"}
 								{item.isIncome ? " · receita" : ""}
 							</Text>
-						</View>
+						</TouchableOpacity>
 						{!item.isDefault && (
 							<TouchableOpacity
 								onPress={() => handleDelete(item)}
