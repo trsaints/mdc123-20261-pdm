@@ -132,6 +132,14 @@ Se a API estiver em outro host ou em uma máquina remota, configure a variável 
 EXPO_PUBLIC_API_URL=http://<seu-host>:3000 npm start
 ```
 
+Um exemplo está disponível em `gestao-financeira/.env.example`.
+
+### Configurando o CORS no backend
+
+O backend usa a variável `FRONTEND_URL` para adicionar a aplicação React Native no whitelist para que esta não seja bloqueada pela política de CORS configurada na API. Além disso, é necessário adicionar a variável `DATABASE_URL` para que o backend consiga executar operações no database, bem como permitir o ORM gerar migrations e seed.
+
+Um exemplo está disponível em `gestao-financeira-api/.env.example`.
+
 ### Observações sobre emuladores
 
 - Android Emulator: se usar `localhost` e a API não responder, use o IP do host ou configure `EXPO_PUBLIC_API_URL`.
