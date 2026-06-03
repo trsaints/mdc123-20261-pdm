@@ -9,7 +9,7 @@ import {
 	View,
 } from "react-native";
 import { MoneyContext } from "../../../contexts/GlobalState";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, useNavigation } from "expo-router";
 import { globalStyles } from "../../styles/globalStyles";
 import Button from "../components/AppButton";
 import CategoryPicker from "../components/AppCategoryPicker";
@@ -30,9 +30,16 @@ export default function AddTransactions() {
 	const valueInputRef = useRef();
 	const { id } = useLocalSearchParams();
 	const router = useRouter();
+	const navigation = useNavigation();
 
 	// Consumindo o estado global!
 	const { categories, addTransaction, updateTransaction, transactions } = useContext(MoneyContext);
+
+	useEffect(() => {
+		navigation.setOptions({
+			title: id ? "Atualizar Transação" : "Adicionar Transação",
+		});
+	}, [id, navigation]);
 
 	useEffect(() => {
 		if (!id) return;
