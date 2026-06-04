@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useContext } from "react";
 import { MoneyContext } from "../../../contexts/GlobalState";
 import { useRouter } from "expo-router";
+import { colors } from "../../constants/colors";
 
 export default function AppTransactionItem({ category, date, description, value, id }) {
 	const { removeTransaction } = useContext(MoneyContext);
@@ -49,13 +50,13 @@ export default function AppTransactionItem({ category, date, description, value,
 					</Text>
 					<View style={styles.bottomLineContainer}>
 						<Text style={globalStyles.primaryText}>{description}</Text>
-						<View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-							<TouchableOpacity onPress={handleEdit} hitSlop={8}>
-								<MaterialIcons name="edit" size={20} color="#1A73E8" />
+						<View style={styles.actionsRow}>
+							<TouchableOpacity onPress={handleEdit} hitSlop={8} style={styles.iconButton}>
+								<MaterialIcons name="edit" size={20} color={colors.primary} />
 							</TouchableOpacity>
 							<Text style={valueStyle}>{formatCurrency(value)}</Text>
-							<TouchableOpacity onPress={handleDelete} hitSlop={8}>
-								<MaterialIcons name="delete-outline" size={20} color="#B00020" />
+							<TouchableOpacity onPress={handleDelete} hitSlop={8} style={styles.iconButton}>
+								<MaterialIcons name="delete-outline" size={20} color={colors.negativesText} />
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -70,14 +71,16 @@ const styles = StyleSheet.create({
 	itemContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#FFFFFF",
+		backgroundColor: colors.surface,
 		borderRadius: 16,
-		padding: 16,
+		padding: 18,
 		marginBottom: 12,
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 10,
-		elevation: 2,
+		borderWidth: 1,
+		borderColor: colors.border,
+		shadowColor: colors.shadow,
+		shadowOpacity: 1,
+		shadowRadius: 12,
+		elevation: 3,
 	},
 	textContainer: {
 		flex: 1,
@@ -87,6 +90,20 @@ const styles = StyleSheet.create({
 	bottomLineContainer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
+		alignItems: "center",
 		marginTop: 6,
+	},
+	actionsRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 10,
+	},
+	iconButton: {
+		width: 36,
+		height: 36,
+		borderRadius: 10,
+		backgroundColor: "rgba(0, 0, 0, 0.04)",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 });

@@ -54,7 +54,7 @@ export default function SummaryCharts({ categories, monthly, highestCategory, hi
 						<View key={item.month} style={styles.monthRow}>
 							<View style={styles.monthHeader}>
 								<Text style={styles.monthLabel}>{item.month}</Text>
-								<Text style={globalStyles.secondaryText}>{formatCurrency(item.balance)}</Text>
+								<Text style={styles.balanceText}>{formatCurrency(item.balance)}</Text>
 							</View>
 							<View style={styles.monthBars}>
 								<View style={styles.monthBarWrapper}>
@@ -81,6 +81,15 @@ export default function SummaryCharts({ categories, monthly, highestCategory, hi
 const styles = StyleSheet.create({
 	section: {
 		marginBottom: 24,
+		backgroundColor: colors.surface,
+		borderRadius: 16,
+		padding: 18,
+		borderWidth: 1,
+		borderColor: colors.border,
+		shadowColor: colors.shadow,
+		shadowOpacity: 1,
+		shadowRadius: 14,
+		elevation: 2,
 	},
 	legendRow: {
 		flexDirection: "row",
@@ -104,7 +113,7 @@ const styles = StyleSheet.create({
 	categoryHeader: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: 8,
+		marginBottom: 10,
 	},
 	categoryBadge: {
 		width: 14,
@@ -141,12 +150,15 @@ const styles = StyleSheet.create({
 	monthHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginBottom: 10,
+		marginBottom: 12,
 	},
 	monthLabel: {
 		fontSize: 14,
 		fontWeight: "700",
 		color: colors.primaryText,
+	},
+	balanceText: {
+		color: colors.secondaryText,
 	},
 	monthBars: {
 		gap: 10,

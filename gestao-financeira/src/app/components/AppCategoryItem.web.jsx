@@ -22,8 +22,9 @@ export default function AppCategoryItem({ category }) {
 				justifyContent: "center",
 				width: 44,
 				height: 44,
-				borderRadius: "50%",
+				borderRadius: 22,
 				backgroundColor: categoryConfig.background,
+				boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
 				fontSize: 24,
 			}}
 		>

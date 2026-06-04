@@ -4,6 +4,11 @@ import formatCurrency from "../../constants/currency";
 const barStyles = {
 	container: {
 		marginBottom: 24,
+		backgroundColor: colors.surface,
+		borderRadius: 16,
+		padding: 18,
+		border: `1px solid ${colors.border}`,
+		boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
 	},
 	legend: {
 		display: "flex",
@@ -28,7 +33,7 @@ const barStyles = {
 		display: "flex",
 		alignItems: "center",
 		gap: 12,
-		marginBottom: 8,
+		marginBottom: 10,
 	},
 	categoryBadge: (backgroundColor) => ({
 		width: 14,
@@ -108,6 +113,11 @@ const sectionSubtitle = {
 	marginBottom: 16,
 };
 
+const balanceLabel = {
+	fontSize: 14,
+	color: colors.secondaryText,
+};
+
 export default function SummaryCharts({ categories, monthly, highestCategory, highestMonth }) {
 	return (
 		<div>
@@ -154,7 +164,7 @@ export default function SummaryCharts({ categories, monthly, highestCategory, hi
 						<div key={item.month} style={barStyles.monthRow}>
 							<div style={barStyles.monthHeader}>
 								<div style={barStyles.monthLabel}>{item.month}</div>
-								<div style={sectionSubtitle}>{formatCurrency(item.balance)}</div>
+								<div style={balanceLabel}>{formatCurrency(item.balance)}</div>
 							</div>
 							<div style={barStyles.monthBars}>
 								<div style={barStyles.monthBarWrapper}>

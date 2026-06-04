@@ -6,29 +6,29 @@ const options = Object.values(categories).map((category) => ({
 	text: category.displayName,
 }));
 
+const fieldStyle = {
+	height: 48,
+	width: "100%",
+	padding: "0 16px",
+	borderRadius: 12,
+	border: `1px solid ${colors.border}`,
+	backgroundColor: colors.surface,
+	color: colors.primaryText,
+	fontSize: 16,
+	boxSizing: "border-box",
+	outline: "none",
+};
+
 export default function AppCategoryPicker({ form, setForm }) {
 	return (
 		<div style={{ marginBottom: 16 }}>
-			<label style={{ fontSize: 15, color: colors.primaryText, marginBottom: 8, display: "block" }}>
+			<label style={{ fontSize: 14, color: colors.primaryText, marginBottom: 8, display: "block" }}>
 				Categoria
 			</label>
 			<select
 				value={form.category}
 				onChange={(e) => setForm({ ...form, category: e.target.value })}
-				style={{
-					height: 48,
-					paddingLeft: 16,
-					borderColor: colors.secondaryText,
-					borderWidth: 1,
-					borderRadius: 12,
-					borderStyle: "solid",
-					width: "100%",
-					boxSizing: "border-box",
-					fontSize: 16,
-					backgroundColor: "#FFFFFF",
-					color: colors.primaryText,
-					cursor: "pointer",
-				}}
+				style={fieldStyle}
 			>
 				{options.map((option) => (
 					<option key={option.key} value={option.key}>

@@ -6,74 +6,108 @@ import { formatCurrency } from "../../constants/currency";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useContext } from "react";
 import { MoneyContext } from "../../../contexts/GlobalState";
+import { colors } from "../../constants/colors";
 
-export default function AppTransactionItem({ category, date, description, value, id }) {
-	const { removeTransaction } = useContext(MoneyContext);
+export default function AppTransactionItem({
+  category,
+  date,
+  description,
+  value,
+  id,
+}) {
+  const { removeTransaction } = useContext(MoneyContext);
 
-	const categoryName = typeof category === "object" ? category?.name : category;
-	const valueStyle =
-		categoryName === categories.income.name
-			? globalStyles.positiveText
-			: globalStyles.negativeText;
+  const categoryName = typeof category === "object" ? category?.name : category;
+  const valueStyle =
+    categoryName === categories.income.name
+      ? globalStyles.positiveText
+      : globalStyles.negativeText;
 
-	const handleDelete = () => {
-		Alert.alert("Excluir transação", `Deseja excluir "${description}"?`, [
-			{ text: "Cancelar", style: "cancel" },
-			{
-				text: "Excluir",
-				style: "destructive",
-				onPress: async () => {
-					try {
-						await removeTransaction(id);
-					} catch (e) {
-						Alert.alert("Erro ao excluir", e.message ?? "Tente novamente.");
-					}
-				},
-			},
-		]);
-	};
+  const handleDelete = () => {
+    Alert.alert("Excluir transação", `Deseja excluir "${description}"?`, [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await removeTransaction(id);
+          } catch (e) {
+            Alert.alert("Erro ao excluir", e.message ?? "Tente novamente.");
+          }
+        },
+      },
+    ]);
+  };
 
-	return (
-		<>
-			<View style={styles.itemContainer}>
-				<CategoryItem category={category} />
-				<View style={styles.textContainer}>
-					<Text style={globalStyles.secondaryText}>
-						{new Date(date).toLocaleDateString("pt-BR")}
-					</Text>
-					<View style={styles.bottomLineContainer}>
-						<Text style={globalStyles.primaryText}>{description}</Text>
-						<View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-							<Text style={valueStyle}>{formatCurrency(value)}</Text>
-							<TouchableOpacity onPress={handleDelete} hitSlop={8}>
-								<MaterialIcons name="delete-outline" size={20} color="#B00020" />
-							</TouchableOpacity>
-						</View>
-					</View>
-				</View>
-			</View>
-			<View style={globalStyles.line} />
-		</>
-	);
+  return (
+    <>
+      <View style={styles.itemContainer}>
+        <CategoryItem category={category} />
+        <View style={styles.textContainer}>
+          <Text style={globalStyles.secondaryText}>
+            {new Date(date).toLocaleDateString("pt-BR")}
+          </Text>
+          <View style={styles.bottomLineContainer}>
+            <Text style={globalStyles.primaryText}>{description}</Text>
+            <View style={styles.actionsRow}>
+              <Text style={valueStyle}>{formatCurrency(value)}</Text>
+              <TouchableOpacity
+                onPress={handleDelete}
+                hitSlop={8}
+                style={styles.iconButton}
+              >
+                <MaterialIcons
+                  name="delete-outline"
+                  size={20}
+                  color={colors.negativesText}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={globalStyles.line} />
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
-	itemContainer: {
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		paddingBottom: 4,
-	},
-	textContainer: {
-		display: "flex",
-		flex: 1,
-		flexDirection: "column",
-		marginLeft: 12,
-		paddingVertical: 8,
-	},
-	bottomLineContainer: {
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    padding: 18,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.shadow,
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  textContainer: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: "center",
+  },
+  bottomLineContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  actionsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  iconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: "rgba(0, 0, 0, 0.04)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

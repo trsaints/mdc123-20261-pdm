@@ -5,21 +5,23 @@ import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { MoneyContext } from "../../../contexts/GlobalState";
 
-const iconStyles = {
-	button: {
-		border: "none",
-		background: "transparent",
-		cursor: "pointer",
-		fontSize: 16,
-		padding: 4,
-	},
+const actionButton = {
+	border: "none",
+	background: "rgba(0, 0, 0, 0.04)",
+	borderRadius: 10,
+	cursor: "pointer",
+	fontSize: 16,
+	padding: 8,
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
 };
 
 export default function AppTransactionItem({ category, date, description, value, id }) {
 	const router = useRouter();
 	const { removeTransaction } = useContext(MoneyContext);
 	const key = typeof category === "object" ? category?.name : category;
-	const valueStyle = key === categories.income.name ? colors.positiveText : colors.negativeText;
+	const valueStyle = key === categories.income.name ? colors.positiveText : colors.negativesText;
 	const dateValue = new Date(date).toLocaleDateString("pt-BR");
 
 	const handleDelete = async () => {
@@ -40,22 +42,23 @@ export default function AppTransactionItem({ category, date, description, value,
 		<div
 			style={{
 				marginBottom: 16,
-				padding: 16,
+				padding: 18,
 				borderRadius: 16,
-				backgroundColor: "#FFFFFF",
-				boxShadow: "0 10px 24px rgba(0,0,0,0.06)",
+				backgroundColor: colors.surface,
+				border: `1px solid ${colors.border}`,
+				boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
 			}}
 		>
 			<div
 				style={{
 					display: "flex",
 					alignItems: "center",
-					gap: 12,
+					gap: 14,
 				}}
 			>
 				<AppCategoryItem category={category} />
 				<div style={{ flex: 1 }}>
-					<div style={{ color: colors.secondaryText, fontSize: 13, marginBottom: 4 }}>
+					<div style={{ color: colors.secondaryText, fontSize: 13, marginBottom: 6 }}>
 						{dateValue}
 					</div>
 					<div
@@ -66,17 +69,12 @@ export default function AppTransactionItem({ category, date, description, value,
 						}}
 					>
 						<div style={{ fontSize: 15, color: colors.primaryText, fontWeight: 600 }}>{description}</div>
-						<div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-							<button style={iconStyles.button} onClick={handleEdit} title="Editar transação">
+						<div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+							<button style={actionButton} onClick={handleEdit} title="Editar transação">
 								✏️
 							</button>
-							<div style={{ color: valueStyle, fontWeight: 700 }}>
-								{new Intl.NumberFormat("pt-BR", {
-									style: "currency",
-									currency: "BRL",
-								}).format(Number(value ?? 0))}
-							</div>
-							<button style={iconStyles.button} onClick={handleDelete} title="Excluir transação">
+							<div style={{ color: valueStyle, fontWeight: 700 }}>{new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(value ?? 0))}</div>
+							<button style={actionButton} onClick={handleDelete} title="Excluir transação">
 								🗑️
 							</button>
 						</div>

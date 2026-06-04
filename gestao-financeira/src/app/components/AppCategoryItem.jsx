@@ -13,29 +13,33 @@ import { colors } from "../../constants/colors";
  * @returns {JSX.Element} View com ícone Material centrado.
  */
 export default function AppCategoryItem({ category }) {
-  const key = typeof category === "object" ? category?.name : category;
-  const categoryConfig = categories[key] ?? categories.food;
+	const key = typeof category === "object" ? category?.name : category;
+	const categoryConfig = categories[key] ?? categories.food;
 
-  return (
-    <View
-      style={[styles.background, { backgroundColor: categoryConfig.background }]}
-    >
-      <MaterialIcons
-        name={categoryConfig.icon}
-        size={24}
-        color={colors.primaryContrast}
-      />
-    </View>
-  );
+	return (
+		<View
+			style={[styles.background, { backgroundColor: categoryConfig.background }]}
+		>
+			<MaterialIcons
+				name={categoryConfig.icon}
+				size={24}
+				color={colors.primaryContrast}
+			/>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  background: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-  },
+	background: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		shadowColor: colors.shadow,
+		shadowOpacity: 1,
+		shadowRadius: 10,
+		elevation: 2,
+	},
 });

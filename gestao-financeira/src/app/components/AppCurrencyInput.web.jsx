@@ -1,5 +1,18 @@
 import { colors } from "../../constants/colors";
 
+const fieldStyle = {
+	height: 48,
+	width: "100%",
+	padding: "0 16px",
+	borderRadius: 12,
+	border: `1px solid ${colors.border}`,
+	backgroundColor: colors.surface,
+	color: colors.primaryText,
+	fontSize: 16,
+	boxSizing: "border-box",
+	outline: "none",
+};
+
 export default function AppCurrencyInput({ form, setForm }) {
 	const formattedValue = form.value
 		? form.value.toLocaleString("pt-BR", {
@@ -16,7 +29,7 @@ export default function AppCurrencyInput({ form, setForm }) {
 
 	return (
 		<div style={{ marginBottom: 16 }}>
-			<label style={{ fontSize: 15, color: colors.primaryText, marginBottom: 8, display: "block" }}>
+			<label style={{ fontSize: 14, color: colors.primaryText, marginBottom: 8, display: "block" }}>
 				Valor
 			</label>
 			<input
@@ -25,18 +38,7 @@ export default function AppCurrencyInput({ form, setForm }) {
 				onChange={(e) => handleCurrencyChange(e.target.value)}
 				placeholder="Digite o valor"
 				inputMode="numeric"
-				style={{
-					height: 48,
-					paddingLeft: 16,
-					borderColor: colors.secondaryText,
-					borderWidth: 1,
-					borderRadius: 12,
-					borderStyle: "solid",
-					width: "100%",
-					boxSizing: "border-box",
-					fontSize: 16,
-					color: colors.primaryText,
-				}}
+				style={fieldStyle}
 			/>
 		</div>
 	);
