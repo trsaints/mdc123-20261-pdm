@@ -1,10 +1,17 @@
+import { useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { StyleSheet, Text, View } from "react-native";
+import { MoneyContext } from "../../../contexts/GlobalState";
 import { globalStyles } from "../../styles/globalStyles";
-import { categories } from "../../constants/categories";
+import { categories as defaultCategories } from "../../constants/categories";
 import { colors } from "../../constants/colors";
 
 export default function AppCategoryPicker({ form, setForm }) {
+	const { categories = [] } = useContext(MoneyContext);
+	const options = categories.length
+		? [...categories].sort((a, b) => a.displayName.localeCompare(b.displayName))
+		: Object.values(defaultCategories);
+
 	return (
 		<View>
 			<Text style={globalStyles.inputLabel}>Categoria</Text>
@@ -15,26 +22,13 @@ export default function AppCategoryPicker({ form, setForm }) {
 						setForm({ ...form, category: itemValue })
 					}
 				>
-					<Picker.Item
-						label={categories.income.displayName}
-						value={categories.income.name}
-					/>
-					<Picker.Item
-						label={categories.food.displayName}
-						value={categories.food.name}
-					/>
-					<Picker.Item
-						label={categories.house.displayName}
-						value={categories.house.name}
-					/>
-					<Picker.Item
-						label={categories.education.displayName}
-						value={categories.education.name}
-					/>
-					<Picker.Item
-						label={categories.travel.displayName}
-						value={categories.travel.name}
-					/>
+					{options.map((category) => (
+						<Picker.Item
+							key={category.id ?? category.name}
+							label={category.displayName}
+							value={category.name}
+						/>
+					))}
 				</Picker>
 			</View>
 		</View>

@@ -21,7 +21,7 @@ const initialForm = {
 	description: "",
 	value: 0,
 	date: new Date(),
-	category: "Renda",
+	category: "income",
 };
 
 export default function AddTransactions() {

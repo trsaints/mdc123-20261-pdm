@@ -3,16 +3,16 @@ import {
 	ActivityIndicator,
 	Alert,
 	FlatList,
+	Platform,
 	StyleSheet,
 	Text,
 	TextInput,
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { MoneyContext } from "../../../contexts/GlobalState";
 import Button from "../components/AppButton";
-import CategoryItem from "../components/AppCategoryItem";
+import CategoryListItem from "../components/CategoryListItem";
 import { globalStyles } from "../../styles/globalStyles";
 import { colors } from "../../constants/colors";
 
@@ -48,6 +48,32 @@ export default function CategoriesScreen() {
 
 	const [editingId, setEditingId] = useState(null);
 
+	const isWeb = Platform.OS === "web";
+	const showAlert = (title, message) => {
+		if (isWeb) {
+			window.alert(message ? `${title}\n\n${message}` : title);
+			return;
+		}
+		Alert.alert(title, message);
+	};
+
+	const confirmAction = async (title, message) => {
+		if (isWeb) {
+			return window.confirm(`${title}\n\n${message}`);
+		}
+		return new Promise((resolve) => {
+			Alert.alert(
+				title,
+				message,
+				[
+					{ text: "Cancelar", style: "cancel", onPress: () => resolve(false) },
+					{ text: "Excluir", style: "destructive", onPress: () => resolve(true) },
+				],
+				{ cancelable: true }
+			);
+		});
+	};
+
 	const resetForm = () => {
 		setName("");
 		setDisplayName("");
@@ -58,15 +84,15 @@ export default function CategoriesScreen() {
 
 	const handleCreate = async () => {
 		if (!name.trim() || name.trim().length < 2) {
-			Alert.alert("Informe um identificador (mín. 2 letras, sem espaços).");
+			showAlert("Erro", "Informe um identificador (mín. 2 letras, sem espaços). ");
 			return;
 		}
 		if (!displayName.trim() || displayName.trim().length < 2) {
-			Alert.alert("Informe o nome de exibição (mín. 2 letras).");
+			showAlert("Erro", "Informe o nome de exibição (mín. 2 letras). ");
 			return;
 		}
 		if (!icon.trim()) {
-			Alert.alert("Informe o nome do ícone (Material Icons).");
+			showAlert("Erro", "Informe o nome do ícone (Material Icons). ");
 			return;
 		}
 
@@ -80,7 +106,7 @@ export default function CategoriesScreen() {
 					background,
 					isIncome: false,
 				});
-				Alert.alert("Categoria atualizada!");
+				showAlert("Categoria atualizada!");
 			} else {
 				await addCategory({
 					name: name.trim().toLowerCase().replace(/\s+/g, "_"),
@@ -89,36 +115,28 @@ export default function CategoriesScreen() {
 					background,
 					isIncome: false,
 				});
-				Alert.alert("Categoria criada!");
+				showAlert("Categoria criada!");
 			}
 			resetForm();
 		} catch (e) {
-			Alert.alert("Erro ao salvar", e.message ?? "Tente novamente.");
+			showAlert("Erro ao salvar", e.message ?? "Tente novamente.");
 		} finally {
 			setSubmitting(false);
 		}
 	};
 
-	const handleDelete = (item) => {
-		Alert.alert(
+	const handleDelete = async (item) => {
+		const confirmed = await confirmAction(
 			"Excluir categoria",
-			`Deseja excluir "${item.displayName}"?`,
-			[
-				{ text: "Cancelar", style: "cancel" },
-				{
-					text: "Excluir",
-					style: "destructive",
-					onPress: async () => {
-						try {
-							await removeCategory(item.id);
-						} catch (e) {
-							Alert.alert("Erro ao excluir", e.message ?? "Tente novamente.");
-						}
-					},
-				},
-			],
-			{ cancelable: true }
+			`Deseja excluir "${item.displayName}"?`
 		);
+		if (!confirmed) return;
+
+		try {
+			await removeCategory(item.id);
+		} catch (e) {
+			showAlert("Erro ao excluir", e.message ?? "Tente novamente.");
+		}
 	};
 
 	if (loading && categories.length === 0) {
@@ -137,7 +155,14 @@ export default function CategoriesScreen() {
 				contentContainerStyle={styles.listContent}
 				ListHeaderComponent={
 					<View style={styles.formContainer}>
-						<Text style={globalStyles.sectionTitle}>Nova categoria</Text>
+						<Text style={globalStyles.sectionTitle}>
+							{editingId ? "Editar categoria" : "Nova categoria"}
+						</Text>
+						{editingId ? (
+							<Text style={globalStyles.secondaryText}>
+								Modo de edição ativo — atualize os dados da categoria e salve.
+							</Text>
+						) : null}
 
 						<View>
 							<Text style={globalStyles.inputLabel}>Identificador</Text>
@@ -189,45 +214,30 @@ export default function CategoriesScreen() {
 						</View>
 
 						<Button onPress={handleCreate} disabled={submitting}>
-							{submitting ? "Salvando..." : "Adicionar categoria"}
+							{submitting ? "Salvando..." : editingId ? "Salvar alterações" : "Adicionar categoria"}
 						</Button>
+						{editingId ? (
+							<Button onPress={resetForm} disabled={submitting} style={styles.cancelButton}>
+								Cancelar edição
+							</Button>
+						) : null}
 
 						<View style={[globalStyles.line, { marginTop: 16 }]} />
 						<Text style={globalStyles.sectionTitle}>Categorias cadastradas</Text>
 					</View>
 				}
 				renderItem={({ item }) => (
-					<View style={styles.categoryRow}>
-						<CategoryItem category={item} />
-						<TouchableOpacity
-							style={styles.categoryInfo}
-							onPress={() => {
-								setEditingId(item.id);
-								setName(item.name);
-								setDisplayName(item.displayName);
-								setIcon(item.icon || "label");
-								setBackground(item.background || PRESET_COLORS[0]);
-							}}
-						>
-							<Text style={globalStyles.primaryText}>{item.displayName}</Text>
-							<Text style={globalStyles.secondaryText}>
-								{item.isDefault ? "padrão" : "personalizada"}
-								{item.isIncome ? " · receita" : ""}
-							</Text>
-						</TouchableOpacity>
-						{!item.isDefault && (
-							<TouchableOpacity
-								onPress={() => handleDelete(item)}
-								hitSlop={8}
-							>
-								<MaterialIcons
-									name="delete-outline"
-									size={24}
-									color={colors.negativeText}
-								/>
-							</TouchableOpacity>
-						)}
-					</View>
+										<CategoryListItem
+						category={item}
+						onEdit={() => {
+							setEditingId(item.id);
+							setName(item.name);
+							setDisplayName(item.displayName);
+							setIcon(item.icon || "label");
+							setBackground(item.background || PRESET_COLORS[0]);
+						}}
+						onDelete={() => handleDelete(item)}
+					/>
 				)}
 			/>
 		</View>
@@ -249,6 +259,12 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		color: colors.primaryText,
 		marginTop: 4,
+	},
+	cancelButton: {
+		backgroundColor: colors.surface,
+		borderColor: colors.border,
+		borderWidth: 1,
+		marginTop: 8,
 	},
 	categoryRow: {
 		flexDirection: "row",

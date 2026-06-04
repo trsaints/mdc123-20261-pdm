@@ -21,7 +21,8 @@ export default function AppTransactionItem({ category, date, description, value,
 	const router = useRouter();
 	const { removeTransaction } = useContext(MoneyContext);
 	const key = typeof category === "object" ? category?.name : category;
-	const valueStyle = key === categories.income.name ? colors.positiveText : colors.negativesText;
+	const isIncome = typeof category === "object" ? category?.isIncome : key === categories.income.name;
+	const valueStyle = isIncome ? colors.positiveText : colors.negativesText;
 	const dateValue = new Date(date).toLocaleDateString("pt-BR");
 
 	const handleDelete = async () => {

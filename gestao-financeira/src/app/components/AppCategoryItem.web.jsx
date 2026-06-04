@@ -1,18 +1,12 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { categories } from "../../constants/categories";
 import { colors } from "../../constants/colors";
 
-const iconEmojis = {
-	income: "💼",
-	food: "🍔",
-	house: "🏠",
-	education: "📚",
-	travel: "✈️",
-};
-
 export default function AppCategoryItem({ category }) {
-	const key = typeof category === "object" ? category?.name : category;
-	const categoryConfig = categories[key] ?? categories.food;
-	const emoji = iconEmojis[categoryConfig.name] || "📦";
+	const categoryConfig =
+		typeof category === "object"
+			? category
+			: categories[category] ?? categories.food;
 
 	return (
 		<div
@@ -28,7 +22,11 @@ export default function AppCategoryItem({ category }) {
 				fontSize: 24,
 			}}
 		>
-			{emoji}
+			<MaterialIcons
+				name={categoryConfig.icon ?? "label"}
+				size={24}
+				color={colors.primaryContrast}
+			/>
 		</div>
 	);
 }

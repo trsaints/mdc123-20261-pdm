@@ -7,21 +7,22 @@ import { colors } from "../../constants/colors";
  * Exibe o ícone da categoria em um círculo com a cor de fundo correspondente.
  *
  * @param {Object} props - Propriedades do componente.
- * @param {string} props.category - Chave da categoria em `categories` (ex.: "food", "income").
- *   Se o valor não existir em `categories` (dados legados ou inválidos), usa "food" como padrão
- *   para evitar crash ao acessar propriedades de `undefined`.
+ * @param {string|Object} props.category - Chave ou objeto da categoria.
+ *   Se o valor for um objeto retornado pelo backend, usa suas propriedades diretamente.
  * @returns {JSX.Element} View com ícone Material centrado.
  */
 export default function AppCategoryItem({ category }) {
-	const key = typeof category === "object" ? category?.name : category;
-	const categoryConfig = categories[key] ?? categories.food;
+	const categoryConfig =
+		typeof category === "object"
+			? { ...categories[category.name], ...category }
+			: categories[category] ?? categories.food;
 
 	return (
 		<View
 			style={[styles.background, { backgroundColor: categoryConfig.background }]}
 		>
 			<MaterialIcons
-				name={categoryConfig.icon}
+				name={categoryConfig.icon ?? "label"}
 				size={24}
 				color={colors.primaryContrast}
 			/>
