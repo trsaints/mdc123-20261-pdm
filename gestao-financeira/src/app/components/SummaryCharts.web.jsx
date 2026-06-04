@@ -1,5 +1,6 @@
 import { colors } from "../../constants/colors";
 import formatCurrency from "../../constants/currency";
+import SummaryPieChart from "./SummaryPieChart";
 
 const barStyles = {
 	container: {
@@ -127,6 +128,7 @@ export default function SummaryCharts({ categories, monthly, highestCategory, hi
 					<div style={barStyles.legendDot(colors.primary)} />
 					<div style={sectionSubtitle}>Total por categoria</div>
 				</div>
+				<SummaryPieChart categories={categories} />
 				{categories.map((item) => {
 					const percentage = highestCategory ? (item.total / highestCategory) * 100 : 0;
 					return (

@@ -2,10 +2,12 @@ import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../../constants/colors";
 import { globalStyles } from "../../styles/globalStyles";
 import formatCurrency from "../../constants/currency";
+import SummaryPieChart from "./SummaryPieChart";
 
 export default function SummaryCharts({ categories, monthly, highestCategory, highestMonth }) {
 	return (
 		<View>
+			<SummaryPieChart categories={categories} />
 			<View style={styles.section}>
 				<Text style={globalStyles.sectionTitle}>Por categoria</Text>
 				<View style={styles.legendRow}>
